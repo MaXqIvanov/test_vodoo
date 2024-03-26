@@ -7,7 +7,7 @@
 			:key="post.id"
 			:post="post"
 			:users="postsStore.allUsers"
-			v-for="post in postsStore.allPostsSearch"
+			v-for="post in postsStore.allPostsVisible"
 		/>
 	</div>
 </template>
