@@ -40,7 +40,7 @@
 					itemSelector: '.card',
 					gutter: 10
 				});
-			}, 10);
+			}, 1);
 		}
 	);
 
