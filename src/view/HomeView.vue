@@ -5,7 +5,7 @@
 			@clickHandler="searchHandler"
 		/>
 	</div>
-	<div class="card-columns">
+	<div class="masonry">
 		<CardWithPost
 			:key="post.id"
 			:post="post"
@@ -35,7 +35,7 @@
 		() => [postsStore.allPostsVisible, postsStore.allPostsVisible.length],
 		() => {
 			setTimeout(() => {
-				const cardColumns = document.querySelector('.card-columns');
+				const cardColumns = document.querySelector('.masonry');
 				new Masonry(cardColumns, {
 					itemSelector: '.card',
 					gutter: 10
@@ -76,7 +76,7 @@
 		left: 50%;
 		transform: translate(-50%, -50%);
 	}
-	.card-columns {
+	.masonry {
 		.card {
 			width: calc(33% - 3px);
 
@@ -87,6 +87,7 @@
 			@media (max-width: $md) {
 				width: 100%;
 			}
+			margin-bottom: 10px;
 		}
 	}
 </style>
