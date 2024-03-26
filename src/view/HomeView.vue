@@ -17,6 +17,7 @@
 		v-if="!postsStore.allPostsVisible.length && postsStore.isPostLoad"
 		class="not-found"
 	>
+		<h2>Post was not found</h2>
 		<NotFoundSvg width="200px" />
 	</div>
 </template>
@@ -72,6 +73,10 @@
 <style scoped lang="scss">
 	.not-found {
 		position: absolute;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 16px;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
