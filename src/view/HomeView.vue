@@ -3,52 +3,55 @@
 		<InputDefault class="col-12 col-md-6 col-lg-4" />
 	</div>
 	<div class="card-columns">
-		<CardDefault
+		<CardWithPost
 			:key="post.id"
-			:title="post.title"
-			:body="post.body"
-			:footer="post.author"
-			:id="post.id"
-			v-for="post in postsStore.allPostsVisible"
+			:post="post"
+			:users="postsStore.allUsers"
+			v-for="post in postsStore.allPostsSearch"
 		/>
 	</div>
 </template>
 
 <script setup lang="ts">
-	import CardDefault from '@/components/UI/Card/CardDefault.vue';
+	import CardWithPost from '@/components/UI/Card/CardWithPost.vue';
 	import InputDefault from '@/components/UI/Input/InputDefault.vue';
 	import { usePostsStore } from '@/store/posts.store';
-	import { onMounted, onUnmounted } from 'vue';
+	import { onMounted, watch } from 'vue';
+	import Masonry from 'masonry-layout';
 
 	const postsStore = usePostsStore();
 
-	const loadMoreCard = () => {
-		if (postsStore.allPostsVisible.length === postsStore.allPosts.length) {
-			document.removeEventListener('scroll', loadMoreCard);
+	watch(
+		() => postsStore.allPostsSearch,
+		() => {
+			setTimeout(() => {
+				const cardColumns = document.querySelector('.card-columns');
+				new Masonry(cardColumns, {
+					itemSelector: '.card',
+					gutter: 10
+				});
+			}, 0);
 		}
-		if (window.innerHeight + window.pageYOffset + 100 >= document.body.offsetHeight) {
-			console.log('scrooll');
-			postsStore.loadMorePosts();
-		}
-	};
+	);
 
 	onMounted(() => {
 		postsStore.getPosts();
-		document.addEventListener('scroll', loadMoreCard);
-	});
-
-	onUnmounted(() => {
-		document.removeEventListener('scroll', loadMoreCard);
+		postsStore.getUsers();
 	});
 </script>
 
 <style scoped lang="scss">
 	.card-columns {
-		@media (max-width: $md) {
-			column-count: 2;
-		}
-		@media (max-width: $sm) {
-			column-count: 1;
+		.card {
+			width: calc(33% - 3px);
+
+			@media (max-width: $xl) {
+				width: calc(50% - 5px);
+			}
+
+			@media (max-width: $md) {
+				width: 100%;
+			}
 		}
 	}
 </style>
