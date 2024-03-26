@@ -33,3 +33,20 @@ body {
 		text-transform: capitalize;
 	}
 }
+
+*::-webkit-scrollbar {
+	width: 10px; /* в основном для вертикальных полос прокрутки */
+	height: 10px; /* в основном для горизонтальных полос прокрутки */
+}
+
+*::-webkit-scrollbar-thumb {
+	/* плашка-бегунок */
+	background-color: rgba(170, 170, 170, 0.75);
+	border-radius: 4px;
+	border: 1px solid #fff;
+}
+
+*::-webkit-scrollbar-track {
+	/* фон */
+	background: #ededed;
+}

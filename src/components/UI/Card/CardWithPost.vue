@@ -13,7 +13,7 @@
 			{{ post.body }}
 		</p>
 		<span
-			class="card-footer bg-transparent first-letter-upper"
+			class="card-footer bg-transparent first-letter-upper border-0 text-black-50"
 			v-if="users?.[post.userId]?.name || isLoadFooter"
 		>
 			{{ users[post.userId].name }}
@@ -37,5 +37,10 @@
 <style scoped lang="scss">
 	h5 {
 		color: var(--var-lighter-primary);
+	}
+	.card {
+		padding-bottom: 12px;
+	}
+	.card-footer {
 	}
 </style>

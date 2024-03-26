@@ -1,6 +1,9 @@
 <template>
 	<div class="row justify-content-center mb-4">
-		<InputDefault class="col-12 col-md-6 col-lg-4" />
+		<InputDefault
+			class="col-12 col-md-6 col-lg-4"
+			@clickHandler="searchHandler"
+		/>
 	</div>
 	<div class="card-columns">
 		<CardWithPost
@@ -10,19 +13,26 @@
 			v-for="post in postsStore.allPostsVisible"
 		/>
 	</div>
+	<div
+		v-if="!postsStore.allPostsVisible.length && postsStore.isPostLoad"
+		class="not-found"
+	>
+		<NotFoundSvg width="200px" />
+	</div>
 </template>
 
 <script setup lang="ts">
 	import CardWithPost from '@/components/UI/Card/CardWithPost.vue';
 	import InputDefault from '@/components/UI/Input/InputDefault.vue';
 	import { usePostsStore } from '@/store/posts.store';
-	import { onMounted, watch } from 'vue';
+	import { onMounted, onUnmounted, watch } from 'vue';
 	import Masonry from 'masonry-layout';
+	import NotFoundSvg from '@/components/Icons/NotFoundSvg.vue';
 
 	const postsStore = usePostsStore();
 
 	watch(
-		() => postsStore.allPostsSearch,
+		() => [postsStore.allPostsVisible, postsStore.allPostsVisible.length],
 		() => {
 			setTimeout(() => {
 				const cardColumns = document.querySelector('.card-columns');
@@ -30,17 +40,42 @@
 					itemSelector: '.card',
 					gutter: 10
 				});
-			}, 0);
+			}, 10);
 		}
 	);
+
+	const searchHandler = (e: string) => {
+		postsStore.searchPost(e);
+	};
+
+	const loadMoreCard = () => {
+		if (postsStore.allPostsVisible.length === postsStore.allPosts.length) {
+			return;
+		}
+		if (window.innerHeight + window.pageYOffset + 100 >= document.body.offsetHeight) {
+			postsStore.loadMorePosts();
+		}
+	};
 
 	onMounted(() => {
 		postsStore.getPosts();
 		postsStore.getUsers();
+
+		document.addEventListener('scroll', loadMoreCard);
+	});
+
+	onUnmounted(() => {
+		document.removeEventListener('scroll', loadMoreCard);
 	});
 </script>
 
 <style scoped lang="scss">
+	.not-found {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
 	.card-columns {
 		.card {
 			width: calc(33% - 3px);
