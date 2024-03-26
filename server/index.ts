@@ -7,9 +7,9 @@ const app = express();
 app.use(express.static(path.resolve('../dist')));
 
 app.get('/*', (req: Request, res: Response) => {
-	console.log(path.join(__dirname, '/client/test_vodoo/dist', 'index.html'));
+	console.log(path.join(__dirname, '..', '/dist', 'index.html'));
 
-	res.sendFile(path.join(__dirname, '/client/test_vodoo/dist', 'index.html'));
+	res.sendFile(path.join(__dirname, '..', '/dist', 'index.html'));
 });
 
 app.listen(5007, () => {
