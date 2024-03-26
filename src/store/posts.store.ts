@@ -35,5 +35,7 @@ export const usePostsStore = defineStore('posts', () => {
 		allPostsSearch.value = allPosts.value;
 	}
 
-	return { searchString, allPosts, allPostsSearch, allUsers, getPosts, getUsers };
+	function loadMorePosts() {}
+
+	return { searchString, allPosts, allPostsSearch, allUsers, getPosts, getUsers, loadMorePosts };
 });
