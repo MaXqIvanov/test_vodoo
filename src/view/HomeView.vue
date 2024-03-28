@@ -41,7 +41,7 @@
 					itemSelector: '.card',
 					gutter: 10
 				});
-			}, 1);
+			}, 15);
 		}
 	);
 
